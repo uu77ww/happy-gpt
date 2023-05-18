@@ -27,7 +27,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     lunch_options = ['便當', '麵類', '飯類', '燉飯', '三明治']
-    reply_msg = TextSendMessage(text=random.choice(lunch_options)
+    reply_msg = TextSendMessage(text=random.choice(lunch_options))
     #message = TextSendMessage(text='你剛剛是說 '+event.message.text+'嗎?')
     line_bot_api.reply_message(event.reply_token, reply_msg)
 
