@@ -26,27 +26,8 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    reply_msg = '我只是無害的NPC，請不要傷害我'
-    #msg = json_data['events'][0]['message']['text']
-    msg = event.message.text
-    app.logger.info("msg: " + msg)
-    # 取出文字的前五個字元，轉換成小寫
-    ai_msg = msg[:6].lower()
-    if ai_msg == 'hi ai:':
-            # 將第六個字元之後的訊息發送給 OpenAI
-            response = openai.Completion.create(
-                model='text-davinci-003',
-                prompt=msg[6:],
-                max_tokens=256,
-                temperature=0.5,
-                )
-            # 接收到回覆訊息後，移除換行符號
-            reply_msg = TextSendMessage(text=response["choices"][0]["text"].replace('\n',''))
-    lunch_options = ['便當', '麵類', '飯類', '燉飯', '三明治']
-    if event.message.text == '午餐吃什麼':
-        #message = TextSendMessage(text=event.message.text)
-        reply_msg = TextSendMessage(text=random.choice(lunch_options))
-    line_bot_api.reply_message(event.reply_token, reply_msg)
+    message = TextSendMessage(text=event.message.text)
+    line_bot_api.reply_message(event.reply_token, message)
 
 import os
 if __name__ == "__main__":
