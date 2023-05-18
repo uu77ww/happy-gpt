@@ -29,7 +29,7 @@ def handle_message(event):
     reply_msg = '我只是無害的NPC，請不要傷害我'
     #msg = json_data['events'][0]['message']['text']
     msg = event.message.text
-    app.logger.info("msg: " + )
+    app.logger.info("msg: " + msg)
     # 取出文字的前五個字元，轉換成小寫
     ai_msg = msg[:6].lower()
     if ai_msg == 'hi ai:':
