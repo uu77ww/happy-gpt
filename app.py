@@ -26,9 +26,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    #message = TextSendMessage(text='你剛剛是說 '+event.message.text+'嗎?')
-    reply_msg = TextSendMessage(text='你剛剛是說 '+event.message.text+'嗎??? :P')
-    line_bot_api.reply_message(event.reply_token, reply_msg)
+    lunch_options = ['便當', '麵類', '飯類', '燉飯', '三明治']
+    #message = TextSendMessage(text=event.message.text)
+    message = TextSendMessage(text=random.choice(lunch_options))
+    line_bot_api.reply_message(event.reply_token, message)
 
 import os
 if __name__ == "__main__":
