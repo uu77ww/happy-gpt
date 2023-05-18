@@ -27,7 +27,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     #message = TextSendMessage(text='你剛剛是說 '+event.message.text+'嗎?')
-    reply_msg = TextSendMessage(text=event.message.text)
+    reply_msg = TextSendMessage(text='你剛剛是說 '+event.message.text+'嗎??? :P)
     line_bot_api.reply_message(event.reply_token, reply_msg)
 
 import os
