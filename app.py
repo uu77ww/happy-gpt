@@ -27,7 +27,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = TextSendMessage(text=event.message.text)
-    line_bot_api.reply_message(event.reply_token, message)
+    line_bot_api.reply_message(event.reply_token, '你剛剛是說 '+message+'嗎?')
 
 import os
 if __name__ == "__main__":
