@@ -40,7 +40,7 @@ def handle_message(event):
                 temperature=0.5,
                 )
             # 接收到回覆訊息後，移除換行符號
-            reply_msg = response["choices"][0]["text"].replace('\n','')
+            reply_msg = TextSendMessage(text=response["choices"][0]["text"].replace('\n',''))
     lunch_options = ['便當', '麵類', '飯類', '燉飯', '三明治']
     if event.message.text == '午餐吃什麼':
         #message = TextSendMessage(text=event.message.text)
