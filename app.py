@@ -14,7 +14,7 @@ line_bot_api = LineBotApi('I86eRgDQEGoKvT5aXoefw9ekgJ4z2ACVKABcl9FK/JO1zbkWtwEYS
 # 填入你的 Line Channel Secret
 handler = WebhookHandler('c22f27f77d5d23fe3265b82966e7b02d')
 
-yt = YTMusic('oauth.json')
+yt = YTMusic('AIzaSyDos01WcEoudVx-bcNekQd19y_RhluyAR0')
 
 @app.route("/callback", methods=['POST'])
 def callback():
