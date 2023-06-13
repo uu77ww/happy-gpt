@@ -8,9 +8,9 @@ import openai
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
+line_bot_api = LineBotApi(os.environ['I86eRgDQEGoKvT5aXoefw9ekgJ4z2ACVKABcl9FK/JO1zbkWtwEYSjdzITlNNqSk0deRWhWVKGe3BvCef35jz7EDmBZVHTleu5/98I1CDuHP1IvglHx8t2YoT6WIu2Ica2E3TtEoftaprwIlEv4LOAdB04t89/1O/w1cDnyilFU='])
 handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
-openai.api_key = os.environ['OPENAI_SECRET']
+openai.api_key = os.environ['c22f27f77d5d23fe3265b82966e7b02d']
 
 
 @app.route("/callback", methods=['POST'])
