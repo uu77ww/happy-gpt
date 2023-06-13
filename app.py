@@ -1,50 +1,50 @@
-import openai
-
-from flask_ngrok import run_with_ngrok   # colab 使用，本機環境請刪除
-from flask import Flask, request
-
-# 載入 LINE Message API 相關函式庫
+from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
-from linebot.models import TextSendMessage   # 載入 TextSendMessage 模組
-import json
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import *
+import os
+import random
+from ytmusicapi import YTMusic
 
 app = Flask(__name__)
 
-@app.route("/", methods=['POST'])
-def linebot():
+# 填入你的 Line Channel Access Token
+line_bot_api = LineBotApi('I86eRgDQEGoKvT5aXoefw9ekgJ4z2ACVKABcl9FK/JO1zbkWtwEYSjdzITlNNqSk0deRWhWVKGe3BvCef35jz7EDmBZVHTleu5/98I1CDuHP1IvglHx8t2YoT6WIu2Ica2E3TtEoftaprwIlEv4LOAdB04t89/1O/w1cDnyilFU=')
+
+# 填入你的 Line Channel Secret
+handler = WebhookHandler('c22f27f77d5d23fe3265b82966e7b02d')
+
+yt = YTMusic('oauth.json')
+
+@app.route("/callback", methods=['POST'])
+def callback():
+    signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
-    json_data = json.loads(body)
-    print(json_data)
+    app.logger.info("Request body: " + body)
     try:
-        line_bot_api = LineBotApi('你的 Channel access token')
-        handler = WebhookHandler('你的 Channel secret ')
-        signature = request.headers['X-Line-Signature']
         handler.handle(body, signature)
-        tk = json_data['events'][0]['replyToken']
-        msg = json_data['events'][0]['message']['text']
-        # 取出文字的前五個字元，轉換成小寫
-        ai_msg = msg[:6].lower()
-        reply_msg = ''
-        # 取出文字的前五個字元是 hi ai:
-        if ai_msg == 'hi ai:':
-            openai.api_key = '你的 OpenAI API Key'
-            # 將第六個字元之後的訊息發送給 OpenAI
-            response = openai.Completion.create(
-                model='text-davinci-003',
-                prompt=msg[6:],
-                max_tokens=256,
-                temperature=0.5,
-                )
-            # 接收到回覆訊息後，移除換行符號
-            reply_msg = response["choices"][0]["text"].replace('\n','')
-        else:
-            reply_msg = msg
-        text_message = TextSendMessage(text=reply_msg)
-        line_bot_api.reply_message(tk,text_message)
-    except:
-        print('error')
+    except InvalidSignatureError:
+        abort(400)
     return 'OK'
 
-if __name__ == "__main__":
-    run_with_ngrok(app)   # colab 使用，本機環境請刪除
-    app.run()
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    if event.message.text == '點歌':
+        reply_text = '請輸入歌名或歌詞以進行搜尋'
+    else:
+        reply_text = search_song(event.message.text)
+    
+    message = TextSendMessage(text=reply_text)
+    line_bot_api.reply_message(event.reply_token, message)
+
+
+def search_song(keyword):
+    search_results = yt.search(keyword, filter='songs', limit=1)
+
+    if search_results:
+        video_id = search_results[0]['videoId']
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
+        return f"找到符合條件的歌曲：\n{video_url}"
+    else:
+        return "找不到符合條件的歌曲"
