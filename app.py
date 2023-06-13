@@ -8,7 +8,7 @@ from ytmusicapi import YTMusic
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
+line_bot_api = LineBotApi(os.environ['c22f27f77d5d23fe3265b82966e7b02d'])
 handler = WebhookHandler(os.environ['656cb267b52976f0712221a0e7671e26'])
 
 yt = YTMusic('oauth.json')
