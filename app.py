@@ -7,8 +7,8 @@ import random
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
-handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
+line_bot_api = LineBotApi(os.environ['xpxTa3kRpJbqrTTNX95Clsc049UgbM2lULufHj6jGqc90H11P0F/iznIVmoK9xQz0deRWhWVKGe3BvCef35jz7EDmBZVHTleu5/98I1CDuElovM4oS4hWAQ95c61fpPCVly+ZaHxXh5UJWrsQf5XPwdB04t89/1O/w1cDnyilFU='])
+handler = WebhookHandler(os.environ['3303784f32f830283e4da4267f095e7a'])
 
 @app.route("/callback", methods=['POST'])
 def callback():
